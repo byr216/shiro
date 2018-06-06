@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
+<generatorConfiguration>
+	<context id="my" targetRuntime="MyBatis3">
+		
+		<plugin type="org.mybatis.generator.plugins.SerializablePlugin" />
+		
+
+			<jdbcConnection driverClass="com.mysql.jdbc.Driver"
+			connectionURL="jdbc:mysql://127.0.0.1/shiroDemo" userId="root"
+			password="admin" />
+		
+		<javaModelGenerator targetPackage="cn.fei.shiro.domain"
+			targetProject="src/main/java" />
+		
+		<sqlMapGenerator targetPackage="mapper"
+			targetProject="src/main/resources" />
+			
+		<javaClientGenerator targetPackage="cn.fei.shiro.mapper"
+		    targetProject="src/main/java"
+			type="XMLMAPPER" />
+		
+		
+						
+		<!-- 用户表 -->
+		<table tableName="user" enableInsert="true"
+			   enableSelectByPrimaryKey="true" enableSelectByExample="true"
+			   enableUpdateByPrimaryKey="true" enableUpdateByExample="true"
+			   enableDeleteByPrimaryKey="true" enableDeleteByExample="true"
+			   enableCountByExample="true"
+			selectByExampleQueryId="true">
+			<generatedKey column="id" sqlStatement="JDBC" />
+		</table>
+	</context>
+</generatorConfiguration>
