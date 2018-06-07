@@ -37,7 +37,7 @@ public class MyShiroRealm extends AuthorizingRealm {
         List<User> userList = userService.getUserByUsername(utoken.getUsername());
         if(userList!=null&&userList.size()!=0){
             User dbUser = userList.get(0);
-            return new SimpleAuthenticationInfo(dbUser,utoken.getPassword(),getName());
+            return new SimpleAuthenticationInfo(dbUser,dbUser.getPassword(),getName());
         }
         return null;
     }

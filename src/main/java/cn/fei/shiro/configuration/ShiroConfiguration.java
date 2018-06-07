@@ -32,7 +32,6 @@ public class ShiroConfiguration {
         //登录成功后跳转的界面
         factoryBean.setSuccessUrl("/index");
         Map<String, String> map = new LinkedHashMap<String, String>();
-        map.put("/ajaxLogin","anon");
         map.put("/logout","logout");
         map.put("/static/*","anon");
         map.put("/static/**","anon");
