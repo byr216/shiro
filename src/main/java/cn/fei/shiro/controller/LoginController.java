@@ -14,11 +14,17 @@ import org.springframework.web.bind.annotation.RestController;
 public class LoginController {
 
     @RequestMapping("/login")
-    public String login(User user){
+    public String login(){
+        return "登录界面";
+    }
+
+    @RequestMapping("ajaxLogin")
+    public String ajaxLogin(User user){
         UsernamePasswordToken token = new UsernamePasswordToken(user.getUsername(),user.getPassword());
         SecurityUtils.getSubject().login(token);
         return "success";
     }
+
 
     @RequestMapping("/index")
     public String index(){

@@ -31,10 +31,7 @@ public class ShiroConfiguration {
         factoryBean.setLoginUrl("/login");
         //登录成功后跳转的界面
         factoryBean.setSuccessUrl("/index");
-        //自定义拦截器
-        Map<String,Filter> filterMap = new HashMap<>();
         Map<String, String> map = new LinkedHashMap<String, String>();
-        filterMap.put("authc",getMyFormAuthenticationFilter());
         map.put("/ajaxLogin","anon");
         map.put("/logout","logout");
         map.put("/static/*","anon");
@@ -42,6 +39,10 @@ public class ShiroConfiguration {
         map.put("/*","authc");
         map.put("/**","authc");
         factoryBean.setFilterChainDefinitionMap(map);
+        //自定义拦截器
+        Map<String,Filter> filterMap = new HashMap<>();
+
+        filterMap.put("authc",getMyFormAuthenticationFilter());
         factoryBean.setFilters(filterMap);
         return factoryBean;
     }
