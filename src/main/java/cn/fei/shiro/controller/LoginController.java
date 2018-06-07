@@ -24,4 +24,5 @@ public class LoginController {
     public String index(){
         return "登录成功";
     }
+
 }
