@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.fei.item.mapper.LoginInfoMapper">
+    <resultMap id="BaseResultMap" type="cn.fei.item.domain.LoginInfo">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="username" jdbcType="VARCHAR" property="username"/>
+        <result column="password" jdbcType="VARCHAR" property="password"/>
+    </resultMap>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        DELETE FROM login_info
+        WHERE id = #{id,jdbcType=BIGINT}
+    </delete>
+    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="cn.fei.item.domain.LoginInfo" useGeneratedKeys="true">
+        INSERT INTO login_info (username, password)
+        VALUES (#{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR})
+    </insert>
+    <update id="updateByPrimaryKey" parameterType="cn.fei.item.domain.LoginInfo">
+        UPDATE login_info
+        SET username = #{username,jdbcType=VARCHAR},
+            password = #{password,jdbcType=VARCHAR}
+        WHERE id = #{id,jdbcType=BIGINT}
+    </update>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select id, username, password
+    from login_info
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+    <select id="selectAll" resultMap="BaseResultMap">
+    select id, username, password
+    from login_info
+  </select>
+    <select id="getByUsername" resultType="cn.fei.item.domain.LoginInfo">
+    SELECT id,username,password from login_info WHERE username=#{username}
+  </select>
+</mapper>

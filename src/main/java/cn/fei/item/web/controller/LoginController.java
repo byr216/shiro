@@ -1,4 +1,4 @@
-package cn.fei.shiro.controller;
+package cn.fei.item.web.controller;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,13 +14,6 @@ public class LoginController {
     public String login(){
         return "登录界面";
     }
-
-    @RequestMapping("/")
-    public void login2(){
-        System.out.println("//////");
-        this.login();
-    }
-
 
     @RequestMapping("/index")
     public String index(){

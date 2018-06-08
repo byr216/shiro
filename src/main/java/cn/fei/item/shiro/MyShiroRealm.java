@@ -1,7 +1,7 @@
-package cn.fei.shiro.security;
+package cn.fei.item.shiro;
 
-import cn.fei.shiro.domain.User;
-import cn.fei.shiro.service.IUserService;
+import cn.fei.item.domain.LoginInfo;
+import cn.fei.item.service.ILoginInfoService;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
@@ -24,7 +24,7 @@ public class MyShiroRealm extends AuthorizingRealm {
     }
 
     @Autowired
-    private IUserService userService;
+    private ILoginInfoService loginInfoService;
 
     /**
      * 登录验证
@@ -34,13 +34,16 @@ public class MyShiroRealm extends AuthorizingRealm {
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
         UsernamePasswordToken utoken = (UsernamePasswordToken) token;
-        List<User> userList = userService.getUserByUsername(utoken.getUsername());
-        if(userList!=null&&userList.size()!=0){
-            User dbUser = userList.get(0);
+        List<LoginInfo> loginInfos = loginInfoService.getUserByUsername(utoken.getUsername());
+        if(loginInfos!=null&&loginInfos.size()!=0){
+            LoginInfo dbUser = loginInfos.get(0);
+            //密码加密待完善
             return new SimpleAuthenticationInfo(dbUser,dbUser.getPassword(),getName());
         }
         return null;
     }
+
+
 
     /**
      * 权限验证

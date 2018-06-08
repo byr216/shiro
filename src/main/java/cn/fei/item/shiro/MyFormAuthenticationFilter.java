@@ -1,4 +1,4 @@
-package cn.fei.shiro.security;
+package cn.fei.item.shiro;
 
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationToken;
