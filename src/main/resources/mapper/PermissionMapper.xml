@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.fei.item.mapper.PermissionMapper">
+  <resultMap id="BaseResultMap" type="cn.fei.item.domain.Permission">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="permission_name" jdbcType="VARCHAR" property="permissionName" />
+    <result column="permission_value" jdbcType="VARCHAR" property="permissionValue" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from permission
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="cn.fei.item.domain.Permission" useGeneratedKeys="true">
+    insert into permission (permission_name, permission_value)
+    values (#{permissionName,jdbcType=VARCHAR}, #{permissionValue,jdbcType=VARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="cn.fei.item.domain.Permission">
+    update permission
+    set permission_name = #{permissionName,jdbcType=VARCHAR},
+      permission_value = #{permissionValue,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select id, permission_name, permission_value
+    from permission
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select id, permission_name, permission_value
+    from permission
+  </select>
+</mapper>

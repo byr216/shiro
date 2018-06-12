@@ -21,7 +21,6 @@ import org.springframework.cache.ehcache.EhCacheManagerFactoryBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
-
 import javax.servlet.Filter;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -46,6 +45,7 @@ public class ShiroConfiguration {
         map.put("/logout", "logout");
         map.put("/static/*", "anon");
         map.put("/static/**", "anon");
+        map.put("/**/favicon.ico","anon");
         map.put("/*", "authc");
         map.put("/**", "authc");
         factoryBean.setFilterChainDefinitionMap(map);
@@ -70,6 +70,7 @@ public class ShiroConfiguration {
         return manager;
     }
 
+    @Bean
     public EhCacheManager getEhCacheManager(){
         EhCacheManager ehCacheManager = new EhCacheManager();
         ehCacheManager.setCacheManager(ehCacheManagerFactoryBean().getObject());

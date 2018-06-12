@@ -64,7 +64,7 @@
 		</javaClientGenerator>
 	
 
-		<table tableName="login_info">
+		<table tableName="user_role">
 			<!-- 参考 javaModelGenerator 的 constructorBased属性 -->
 			<property name="constructorBased" value="false" />
 			<generatedKey column="id" sqlStatement="JDBC" />

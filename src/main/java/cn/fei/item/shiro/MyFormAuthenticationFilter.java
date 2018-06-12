@@ -23,11 +23,17 @@ public class MyFormAuthenticationFilter extends FormAuthenticationFilter{
 
     @Override
     protected boolean onLoginSuccess(AuthenticationToken token, Subject subject, ServletRequest request, ServletResponse response) throws Exception {
-        System.out.println("---------------------");
+        System.out.println("--------登录成功-------------");
 
         return super.onLoginSuccess(token, subject, request, response);
     }
 
+    /**
+     * 解决登录成功后进入登录前访问界面问题，设置后每次登录后默认都会强制进入设置好的主界面
+     * @param request
+     * @param response
+     * @throws Exception
+     */
     @Override
     protected void issueSuccessRedirect(ServletRequest request, ServletResponse response) throws Exception {
         WebUtils.issueRedirect(request, response, getSuccessUrl(), null, true);

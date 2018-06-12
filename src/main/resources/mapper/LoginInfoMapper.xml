@@ -5,31 +5,37 @@
         <id column="id" jdbcType="BIGINT" property="id"/>
         <result column="username" jdbcType="VARCHAR" property="username"/>
         <result column="password" jdbcType="VARCHAR" property="password"/>
+        <result column="is_admin" property="isAdmin"/>
+        <result column="state" property="state"/>
+        <result column="user_id" property="userId"/>
     </resultMap>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
         DELETE FROM login_info
         WHERE id = #{id,jdbcType=BIGINT}
     </delete>
     <insert id="insert" keyColumn="id" keyProperty="id" parameterType="cn.fei.item.domain.LoginInfo" useGeneratedKeys="true">
-        INSERT INTO login_info (username, password)
-        VALUES (#{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR})
+        INSERT INTO login_info (username, password,user_id,is_admin,state)
+        VALUES (#{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR},#{userId},#{isAdmin},#{state})
     </insert>
     <update id="updateByPrimaryKey" parameterType="cn.fei.item.domain.LoginInfo">
         UPDATE login_info
         SET username = #{username,jdbcType=VARCHAR},
-            password = #{password,jdbcType=VARCHAR}
+            password = #{password,jdbcType=VARCHAR},
+            user_id = #{userId},
+            is_admin = #{isAdmin},
+            state = #{state}
         WHERE id = #{id,jdbcType=BIGINT}
     </update>
     <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
-    select id, username, password
+    select id, username, password,user_id,is_admin,state
     from login_info
     where id = #{id,jdbcType=BIGINT}
   </select>
     <select id="selectAll" resultMap="BaseResultMap">
-    select id, username, password
+    select id, username, password,user_id,is_admin,state
     from login_info
   </select>
     <select id="getByUsername" resultType="cn.fei.item.domain.LoginInfo">
-    SELECT id,username,password from login_info WHERE username=#{username}
+    SELECT id,username,password,user_id,is_admin,state from login_info WHERE username=#{username}
   </select>
 </mapper>

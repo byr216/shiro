@@ -1,33 +1,31 @@
 package cn.fei.item.domain;
 
-public class LoginInfo {
-    private Long id;
+import lombok.*;
+
+/**
+ * 登录信息
+ */
+@Setter
+@Getter
+@ToString
+@AllArgsConstructor
+@NoArgsConstructor
+public class LoginInfo extends BaseDomain{
+
+    public static int IS_ADMIN = 1;//超级管理员
+    public static int IS_NOT_ADMIN = 0;//不是超级管理员
+
+    public static int STATE_NORMAL=0;//账号正常
+    public static int STATE_FREEZE = 1;//账号冻结
+
+    private Long userId;
 
     private String username;
 
     private String password;
 
-    public Long getId() {
-        return id;
-    }
+    private int isAdmin = IS_NOT_ADMIN;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    private int state = STATE_NORMAL;
 
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
 }
