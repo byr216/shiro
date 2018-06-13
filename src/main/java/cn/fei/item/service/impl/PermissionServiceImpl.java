@@ -2,14 +2,15 @@ package cn.fei.item.service.impl;
 
 import cn.fei.item.mapper.PermissionMapper;
 import cn.fei.item.service.IPermissionService;
+import cn.fei.item.utils.SpringUtil;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.method.HandlerMethod;
+import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
+import org.springframework.web.servlet.mvc.method.RequestMappingInfoHandlerMapping;
 
-import java.lang.reflect.Method;
-import java.util.Collection;
 import java.util.Map;
 
 /**
@@ -23,22 +24,14 @@ public class PermissionServiceImpl implements IPermissionService {
     @Autowired
     private PermissionMapper permissionMapper;
 
-    @Autowired
-    private ApplicationContext act;
-
-
     @Override
     public void reload() {
-        //获取系统中所有controller类
-        Map<String, Object> beans = act.getBeansWithAnnotation(RestController.class);
-        Collection<Object> values = beans.values();
-        for (Object obj : values) {
-            System.out.println(obj.getClass());
-            Method[] methods = obj.getClass().getDeclaredMethods();
-            for (Method method : methods) {
+        RequestMappingInfoHandlerMapping rmfm = SpringUtil.getBean(RequestMappingInfoHandlerMapping.class);
+        Map<RequestMappingInfo, HandlerMethod> handlerMethods = rmfm.getHandlerMethods();
+        for (HandlerMethod method : handlerMethods.values()) {
+            if (method.hasMethodAnnotation(RequiresPermissions.class)) {
                 System.out.println(method);
             }
         }
-        //遍历所有bean，获取所有bean中被@MyPermissionAnnotation注解标注的方法
     }
 }
