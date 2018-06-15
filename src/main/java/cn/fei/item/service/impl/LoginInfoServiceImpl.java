@@ -1,6 +1,6 @@
 package cn.fei.item.service.impl;
 
-import cn.fei.item.domain.LoginInfo;
+import cn.fei.item.domain.entity.LoginInfo;
 import cn.fei.item.mapper.LoginInfoMapper;
 import cn.fei.item.service.ILoginInfoService;
 import org.springframework.beans.factory.annotation.Autowired;

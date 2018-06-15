@@ -1,4 +1,4 @@
-package cn.fei.item.domain;
+package cn.fei.item.domain.entity;
 
 import lombok.*;
 

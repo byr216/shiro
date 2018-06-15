@@ -1,6 +1,6 @@
 package cn.fei.item.shiro;
 
-import cn.fei.item.domain.LoginInfo;
+import cn.fei.item.domain.entity.LoginInfo;
 import cn.fei.item.service.ILoginInfoService;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
@@ -52,6 +52,7 @@ public class MyShiroRealm extends AuthorizingRealm {
      */
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principal) {
+
         return null;
     }
 

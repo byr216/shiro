@@ -1,6 +1,6 @@
 package cn.fei.item.mapper;
 
-import cn.fei.item.domain.LoginInfo;
+import cn.fei.item.domain.entity.LoginInfo;
 import java.util.List;
 
 public interface LoginInfoMapper {

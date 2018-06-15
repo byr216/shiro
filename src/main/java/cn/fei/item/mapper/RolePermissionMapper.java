@@ -1,6 +1,6 @@
 package cn.fei.item.mapper;
 
-import cn.fei.item.domain.RolePermission;
+import cn.fei.item.domain.entity.RolePermission;
 import java.util.List;
 
 public interface RolePermissionMapper {

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.fei.item.mapper.PermissionMapper">
-  <resultMap id="BaseResultMap" type="cn.fei.item.domain.Permission">
+  <resultMap id="BaseResultMap" type="cn.fei.item.domain.entity.Permission">
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="permission_name" jdbcType="VARCHAR" property="permissionName" />
     <result column="permission_value" jdbcType="VARCHAR" property="permissionValue" />
@@ -10,11 +10,11 @@
     delete from permission
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="cn.fei.item.domain.Permission" useGeneratedKeys="true">
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="cn.fei.item.domain.entity.Permission" useGeneratedKeys="true">
     insert into permission (permission_name, permission_value)
     values (#{permissionName,jdbcType=VARCHAR}, #{permissionValue,jdbcType=VARCHAR})
   </insert>
-  <update id="updateByPrimaryKey" parameterType="cn.fei.item.domain.Permission">
+  <update id="updateByPrimaryKey" parameterType="cn.fei.item.domain.entity.Permission">
     update permission
     set permission_name = #{permissionName,jdbcType=VARCHAR},
       permission_value = #{permissionValue,jdbcType=VARCHAR}
@@ -29,4 +29,7 @@
     select id, permission_name, permission_value
     from permission
   </select>
+    <select id="getPermissionValueSet" resultType="java.lang.String">
+      select permission_value from permission
+    </select>
 </mapper>

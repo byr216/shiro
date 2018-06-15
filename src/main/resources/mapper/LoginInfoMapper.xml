@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.fei.item.mapper.LoginInfoMapper">
-    <resultMap id="BaseResultMap" type="cn.fei.item.domain.LoginInfo">
+    <resultMap id="BaseResultMap" type="cn.fei.item.domain.entity.LoginInfo">
         <id column="id" jdbcType="BIGINT" property="id"/>
         <result column="username" jdbcType="VARCHAR" property="username"/>
         <result column="password" jdbcType="VARCHAR" property="password"/>
@@ -13,11 +13,11 @@
         DELETE FROM login_info
         WHERE id = #{id,jdbcType=BIGINT}
     </delete>
-    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="cn.fei.item.domain.LoginInfo" useGeneratedKeys="true">
+    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="cn.fei.item.domain.entity.LoginInfo" useGeneratedKeys="true">
         INSERT INTO login_info (username, password,user_id,is_admin,state)
         VALUES (#{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR},#{userId},#{isAdmin},#{state})
     </insert>
-    <update id="updateByPrimaryKey" parameterType="cn.fei.item.domain.LoginInfo">
+    <update id="updateByPrimaryKey" parameterType="cn.fei.item.domain.entity.LoginInfo">
         UPDATE login_info
         SET username = #{username,jdbcType=VARCHAR},
             password = #{password,jdbcType=VARCHAR},
@@ -35,7 +35,7 @@
     select id, username, password,user_id,is_admin,state
     from login_info
   </select>
-    <select id="getByUsername" resultType="cn.fei.item.domain.LoginInfo">
+    <select id="getByUsername" resultType="cn.fei.item.domain.entity.LoginInfo">
     SELECT id,username,password,user_id,is_admin,state from login_info WHERE username=#{username}
   </select>
 </mapper>

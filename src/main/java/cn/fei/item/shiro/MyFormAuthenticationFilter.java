@@ -1,5 +1,9 @@
 package cn.fei.item.shiro;
 
+import cn.fei.item.domain.entity.User;
+import cn.fei.item.domain.response.JsonResponse;
+import cn.fei.item.domain.support.MessageCode;
+import cn.fei.item.utils.UserUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.subject.Subject;
@@ -46,8 +50,14 @@ public class MyFormAuthenticationFilter extends FormAuthenticationFilter {
     @Override
     protected boolean onLoginSuccess(AuthenticationToken token, Subject subject, ServletRequest request, ServletResponse response) throws Exception {
         System.out.println("--------登录成功-------------");
+        //获取用户信息
+        User user = UserUtils.getUser();
+        if(user==null){
+            throw new RuntimeException("用户未登录");
+        }
+        JsonResponse<User> jsonResponse = new JsonResponse<>(MessageCode.SUCCESS,"登录成功",user);
 
-        return super.onLoginSuccess(token, subject, request, response);
+        return false;
     }
 
     /**

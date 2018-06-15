@@ -1,6 +1,6 @@
 package cn.fei.item.mapper;
 
-import cn.fei.item.domain.Role;
+import cn.fei.item.domain.entity.Role;
 import java.util.List;
 
 public interface RoleMapper {

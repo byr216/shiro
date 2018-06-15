@@ -1,6 +1,6 @@
 package cn.fei.item.service;
 
-import cn.fei.item.domain.LoginInfo;
+import cn.fei.item.domain.entity.LoginInfo;
 
 import java.util.List;
 

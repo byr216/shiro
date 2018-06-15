@@ -12,13 +12,13 @@ import org.springframework.stereotype.Service;
  *
  */
 @Service
-public class SpringUtil implements ApplicationContextAware,DisposableBean {
+public class SpringUtils implements ApplicationContextAware,DisposableBean {
 
     private static ApplicationContext applicationContext;
 
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-        SpringUtil.applicationContext = applicationContext;
+        SpringUtils.applicationContext = applicationContext;
     }
 
     /**
@@ -59,7 +59,7 @@ public class SpringUtil implements ApplicationContextAware,DisposableBean {
      */
     @Override
     public void destroy() throws Exception {
-        SpringUtil.clearHolder();
+        SpringUtils.clearHolder();
     }
 
     /**

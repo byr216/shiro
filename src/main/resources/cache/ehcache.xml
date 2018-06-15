@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="gbk"?>
 <ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="ehcache.xsd">
 
-	<diskStore path="java.io.tmpdir"/>
- 
-    <defaultCache 
-    	maxElementsInMemory="10000" 
-    	eternal="false" 
-    	timeToIdleSeconds="30" 
-    	timeToLiveSeconds="30" 
-    	overflowToDisk="false"/>
-    	
+    <diskStore path="java.io.tmpdir"/>
+
+    <defaultCache
+            maxElementsInMemory="10000"
+            eternal="false"
+            timeToIdleSeconds="30"
+            timeToLiveSeconds="30"
+            overflowToDisk="false"/>
+
     <!-- 
 		配置自定义缓存：
         maxElementsInMemory：缓存中允许创建的最大对象数
@@ -20,10 +20,26 @@
         memoryStoreEvictionPolicy：缓存满了之后的淘汰算法。
     -->
     <cache name="shiro-activeSessionCache"
-		maxEntriesLocalHeap="10000"
-		eternal="true"
-		overflowToDisk="true"
-        diskPersistent="true"
-        diskExpiryThreadIntervalSeconds="600"
-        statistics="true" />
+           maxEntriesLocalHeap="10000"
+           eternal="true"
+           overflowToDisk="true"
+           diskPersistent="true"
+           diskExpiryThreadIntervalSeconds="600"
+           statistics="true"/>
+    <!--系统缓存-->
+    <cache name="sysCache"
+           maxEntriesLocalHeap="10000"
+           eternal="true"
+           overflowToDisk="true"
+           diskPersistent="true"
+           diskExpiryThreadIntervalSeconds="600"
+           statistics="true"/>
+    <!--用户缓存-->
+    <cache name="userCache"
+           maxEntriesLocalHeap="10000"
+           eternal="true"
+           overflowToDisk="true"
+           diskPersistent="true"
+           diskExpiryThreadIntervalSeconds="600"
+           statistics="true"/>
 </ehcache>
