@@ -1,4 +1,4 @@
-package cn.fei.item.annotation;
+package cn.fei.item.assistant.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

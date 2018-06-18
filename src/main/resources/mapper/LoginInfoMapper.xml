@@ -5,7 +5,6 @@
         <id column="id" jdbcType="BIGINT" property="id"/>
         <result column="username" jdbcType="VARCHAR" property="username"/>
         <result column="password" jdbcType="VARCHAR" property="password"/>
-        <result column="is_admin" property="isAdmin"/>
         <result column="state" property="state"/>
         <result column="user_id" property="userId"/>
     </resultMap>
@@ -14,28 +13,44 @@
         WHERE id = #{id,jdbcType=BIGINT}
     </delete>
     <insert id="insert" keyColumn="id" keyProperty="id" parameterType="cn.fei.item.domain.entity.LoginInfo" useGeneratedKeys="true">
-        INSERT INTO login_info (username, password,user_id,is_admin,state)
-        VALUES (#{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR},#{userId},#{isAdmin},#{state})
+        INSERT INTO login_info (username, password, user_id, state)
+        VALUES (#{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{userId},  #{state})
     </insert>
     <update id="updateByPrimaryKey" parameterType="cn.fei.item.domain.entity.LoginInfo">
         UPDATE login_info
         SET username = #{username,jdbcType=VARCHAR},
             password = #{password,jdbcType=VARCHAR},
-            user_id = #{userId},
-            is_admin = #{isAdmin},
-            state = #{state}
+            user_id  = #{userId},
+            state    = #{state}
         WHERE id = #{id,jdbcType=BIGINT}
     </update>
     <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
-    select id, username, password,user_id,is_admin,state
-    from login_info
-    where id = #{id,jdbcType=BIGINT}
-  </select>
+        SELECT
+            id,
+            username,
+            password,
+            user_id,
+            state
+        FROM login_info
+        WHERE id = #{id,jdbcType=BIGINT}
+    </select>
     <select id="selectAll" resultMap="BaseResultMap">
-    select id, username, password,user_id,is_admin,state
-    from login_info
-  </select>
-    <select id="getByUsername" resultType="cn.fei.item.domain.entity.LoginInfo">
-    SELECT id,username,password,user_id,is_admin,state from login_info WHERE username=#{username}
-  </select>
+        SELECT
+            id,
+            username,
+            password,
+            user_id,
+            state
+        FROM login_info
+    </select>
+    <select id="getByUsername" resultMap="BaseResultMap">
+        SELECT
+            id,
+            username,
+            password,
+            user_id,
+            state
+        FROM login_info
+        WHERE username = #{username}
+    </select>
 </mapper>

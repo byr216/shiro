@@ -1,6 +1,7 @@
 package cn.fei.item.mapper;
 
 import cn.fei.item.domain.entity.User;
+
 import java.util.List;
 
 public interface UserMapper {

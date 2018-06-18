@@ -1,9 +1,11 @@
 package cn.fei.item.shiro;
 
+import cn.fei.item.assistant.enums.MessageCodeEnum;
+import cn.fei.item.assistant.exception.JsonException;
 import cn.fei.item.domain.entity.User;
 import cn.fei.item.domain.response.JsonResponse;
-import cn.fei.item.domain.support.MessageCode;
 import cn.fei.item.utils.UserUtils;
+import com.alibaba.fastjson.JSON;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.subject.Subject;
@@ -12,7 +14,6 @@ import org.apache.shiro.web.util.WebUtils;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
-import java.io.IOException;
 import java.io.PrintWriter;
 
 /**
@@ -24,27 +25,26 @@ public class MyFormAuthenticationFilter extends FormAuthenticationFilter {
     protected boolean onLoginFailure(AuthenticationToken token, AuthenticationException e, ServletRequest request, ServletResponse response) {
         System.out.println("登录失败");
 
-        try {
-            response.setCharacterEncoding("UTF-8");
-            PrintWriter out = response.getWriter();
-            String message = e.getClass().getSimpleName();
-            if ("IncorrectCredentialsException".equals(message)) {
-                out.println("{\"success\":false,\"msg\":\"密码错误\"}");
-            } else if ("UnknownAccountException".equals(message)) {
-                out.println("{\"success\":false,\"msg\":\"账号不存在\"}");
-            } else if ("LockedAccountException".equals(message)) {
-                out.println("{\"success\":false,\"msg\":\"账号被锁定\"}");
-            } else if ("AuthenticationException".equals(message)) {
-                out.println("{\"success\":false,\"msg\":\"账号被锁定\"}");
-            } else {
-                out.println("{\"success\":false,\"msg\":\"未知错误\"}");
-            }
-            out.flush();
-            out.close();
-        } catch (IOException e1) {
-            e1.printStackTrace();
+        String message = e.getClass().getSimpleName();
+        String msgCode = "";
+        String msg = "";
+        if ("IncorrectCredentialsException".equals(message)) {
+            msgCode = MessageCodeEnum.INCORRECT_CREDENTIALS.getMessageCode();
+            msg = MessageCodeEnum.INCORRECT_CREDENTIALS.getMessage();
+        } else if ("UnknownAccountException".equals(message)) {
+            msgCode = MessageCodeEnum.UNKNOWN_ACCOUNT.getMessageCode();
+            msg = MessageCodeEnum.UNKNOWN_ACCOUNT.getMessage();
+        } else if ("LockedAccountException".equals(message)) {
+            msgCode = MessageCodeEnum.LOCKED_ACCOUNT.getMessageCode();
+            msg = MessageCodeEnum.LOCKED_ACCOUNT.getMessage();
+        } else if ("AuthenticationException".equals(message)) {
+            msgCode = MessageCodeEnum.AUTHENTICATION.getMessageCode();
+            msg = MessageCodeEnum.AUTHENTICATION.getMessage();
+        } else {
+            msgCode = MessageCodeEnum.FAIL.getMessageCode();
+            msg = MessageCodeEnum.FAIL.getMessage();
         }
-        return false;
+        throw new JsonException(msgCode, msg);
     }
 
     @Override
@@ -52,11 +52,13 @@ public class MyFormAuthenticationFilter extends FormAuthenticationFilter {
         System.out.println("--------登录成功-------------");
         //获取用户信息
         User user = UserUtils.getUser();
-        if(user==null){
-            throw new RuntimeException("用户未登录");
-        }
-        JsonResponse<User> jsonResponse = new JsonResponse<>(MessageCode.SUCCESS,"登录成功",user);
 
+        JsonResponse<User> jsonResponse = new JsonResponse<>(MessageCodeEnum.SUCCESS.getMessageCode(), "登录成功", user);
+        response.setContentType("application/json;charset=utf-8");
+        PrintWriter out = response.getWriter();
+        out.print(JSON.toJSONString(jsonResponse));
+        out.flush();
+        out.close();
         return false;
     }
 

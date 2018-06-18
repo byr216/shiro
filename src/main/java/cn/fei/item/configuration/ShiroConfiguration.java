@@ -3,6 +3,7 @@ package cn.fei.item.configuration;
 import cn.fei.item.shiro.MyFormAuthenticationFilter;
 import cn.fei.item.shiro.MySessionDao;
 import cn.fei.item.shiro.MyShiroRealm;
+import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.cache.ehcache.EhCacheManager;
 import org.apache.shiro.mgt.RememberMeManager;
 import org.apache.shiro.mgt.SecurityManager;
@@ -21,6 +22,7 @@ import org.springframework.cache.ehcache.EhCacheManagerFactoryBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
+
 import javax.servlet.Filter;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -32,6 +34,11 @@ import java.util.Map;
  */
 @Configuration
 public class ShiroConfiguration {
+    @Value("${shiro.credentials.algorithm}")
+    private String algoritmh;
+    @Value("${shiro.credentials.iterations}")
+    private int iterations;
+
 
     @Bean
     public ShiroFilterFactoryBean shiroFilter(SecurityManager securityManager) {
@@ -41,12 +48,15 @@ public class ShiroConfiguration {
         factoryBean.setLoginUrl("/login");
         //登录成功后跳转的界面
         factoryBean.setSuccessUrl("/index");
+        //未授权跳转
+        factoryBean.setUnauthorizedUrl("/user/noPermission");
         Map<String, String> map = new LinkedHashMap<String, String>();
         map.put("/logout", "logout");
+        //如果想要自定义退出时操作流程,需要把logout设置成anon
+        map.put("/logout", "anon");
         map.put("/static/*", "anon");
         map.put("/static/**", "anon");
-        map.put("/**/favicon.ico","anon");
-        map.put("/*", "authc");
+        map.put("/**/favicon.ico", "anon");
         map.put("/**", "authc");
         factoryBean.setFilterChainDefinitionMap(map);
         //自定义拦截器
@@ -59,9 +69,10 @@ public class ShiroConfiguration {
 
     @Bean(name = "securityManager")
     public SecurityManager GetSecurityManager(@Qualifier("myShiroRealm") MyShiroRealm myShiroRealm,
-                                              @Qualifier("sessionManager")SessionManager sessionManager) {
+                                              @Qualifier("sessionManager") SessionManager sessionManager) {
         System.err.println("--------------shiro已经加载----------------");
         DefaultWebSecurityManager manager = new DefaultWebSecurityManager();
+        myShiroRealm.setCredentialsMatcher(getHashedCredentialsMatcher());
         manager.setRealm(myShiroRealm);
         // 配置sessionManager
         manager.setSessionManager(sessionManager);
@@ -71,25 +82,25 @@ public class ShiroConfiguration {
     }
 
     @Bean
-    public EhCacheManager getEhCacheManager(){
+    public EhCacheManager getEhCacheManager() {
         EhCacheManager ehCacheManager = new EhCacheManager();
         ehCacheManager.setCacheManager(ehCacheManagerFactoryBean().getObject());
         return ehCacheManager;
     }
 
     @Bean
-    public EhCacheManagerFactoryBean ehCacheManagerFactoryBean(){
+    public EhCacheManagerFactoryBean ehCacheManagerFactoryBean() {
         System.err.println("----------------加载ehcache---------------------");
-        EhCacheManagerFactoryBean cacheManagerFactoryBean = new EhCacheManagerFactoryBean ();
-        cacheManagerFactoryBean.setConfigLocation (
+        EhCacheManagerFactoryBean cacheManagerFactoryBean = new EhCacheManagerFactoryBean();
+        cacheManagerFactoryBean.setConfigLocation(
                 new ClassPathResource("cache/ehcache.xml"));
-        cacheManagerFactoryBean.setShared (true);
+        cacheManagerFactoryBean.setShared(true);
         return cacheManagerFactoryBean;
     }
 
     @Bean(name = "sessionManager")
-    public SessionManager getSessionManager(@Qualifier("sessionDao")SessionDAO sessionDAO,
-                                            @Value("${shiro.globalSessionTimeout}")Long timeOut){
+    public SessionManager getSessionManager(@Qualifier("sessionDao") SessionDAO sessionDAO,
+                                            @Value("${shiro.globalSessionTimeout}") Long timeOut) {
         DefaultWebSessionManager sessionManager = new DefaultWebSessionManager();
         sessionManager.setSessionDAO(sessionDAO);
         sessionManager.setGlobalSessionTimeout(timeOut);
@@ -98,7 +109,7 @@ public class ShiroConfiguration {
     }
 
     @Bean(name = "sessionDao")
-    public SessionDAO getSessionDao(@Value("${shiro.sessionCachName}")String sessionCachName){
+    public SessionDAO getSessionDao(@Value("${shiro.sessionCachName}") String sessionCachName) {
         MySessionDao sessionDAO = new MySessionDao();
         sessionDAO.setActiveSessionsCacheName(sessionCachName);
         return sessionDAO;
@@ -107,6 +118,7 @@ public class ShiroConfiguration {
     /**
      * 指定本系统SESSIONID, 默认为: JSESSIONID 问题: 与SERVLET容器名冲突, 如JETTY, TOMCAT 等默认JSESSIONID,
      * 当跳出SHIRO SERVLET时如ERROR-PAGE容器会为JSESSIONID重新分配值导致登录会话丢失!
+     *
      * @return
      */
     public SimpleCookie getSimpleCookie() {
@@ -116,10 +128,17 @@ public class ShiroConfiguration {
     }
 
 
-
     @Bean(name = "myFormAuthenticationFilter")
     public MyFormAuthenticationFilter getMyFormAuthenticationFilter() {
         return new MyFormAuthenticationFilter();
+    }
+
+    @Bean("myCredentialsMatcher")
+    public HashedCredentialsMatcher getHashedCredentialsMatcher() {
+        HashedCredentialsMatcher hdm = new HashedCredentialsMatcher();
+        hdm.setHashAlgorithmName(algoritmh);
+        hdm.setHashIterations(iterations);
+        return hdm;
     }
 
     /**
@@ -140,6 +159,7 @@ public class ShiroConfiguration {
         return defaultAAP;
     }
 
+    @Bean
     public RememberMeManager getRememberMeManager() {
         RememberMeManager rememberMeManager = new CookieRememberMeManager();
         return rememberMeManager;

@@ -1,35 +1,53 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.fei.item.mapper.PermissionMapper">
-  <resultMap id="BaseResultMap" type="cn.fei.item.domain.entity.Permission">
-    <id column="id" jdbcType="BIGINT" property="id" />
-    <result column="permission_name" jdbcType="VARCHAR" property="permissionName" />
-    <result column="permission_value" jdbcType="VARCHAR" property="permissionValue" />
-  </resultMap>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-    delete from permission
-    where id = #{id,jdbcType=BIGINT}
-  </delete>
-  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="cn.fei.item.domain.entity.Permission" useGeneratedKeys="true">
-    insert into permission (permission_name, permission_value)
-    values (#{permissionName,jdbcType=VARCHAR}, #{permissionValue,jdbcType=VARCHAR})
-  </insert>
-  <update id="updateByPrimaryKey" parameterType="cn.fei.item.domain.entity.Permission">
-    update permission
-    set permission_name = #{permissionName,jdbcType=VARCHAR},
-      permission_value = #{permissionValue,jdbcType=VARCHAR}
-    where id = #{id,jdbcType=BIGINT}
-  </update>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
-    select id, permission_name, permission_value
-    from permission
-    where id = #{id,jdbcType=BIGINT}
-  </select>
-  <select id="selectAll" resultMap="BaseResultMap">
-    select id, permission_name, permission_value
-    from permission
-  </select>
+    <resultMap id="BaseResultMap" type="cn.fei.item.domain.entity.Permission">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="permission_name" jdbcType="VARCHAR" property="permissionName"/>
+        <result column="permission_value" jdbcType="VARCHAR" property="permissionValue"/>
+    </resultMap>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        DELETE FROM permission
+        WHERE id = #{id,jdbcType=BIGINT}
+    </delete>
+    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="cn.fei.item.domain.entity.Permission" useGeneratedKeys="true">
+        INSERT INTO permission (permission_name, permission_value)
+        VALUES (#{permissionName,jdbcType=VARCHAR}, #{permissionValue,jdbcType=VARCHAR})
+    </insert>
+    <update id="updateByPrimaryKey" parameterType="cn.fei.item.domain.entity.Permission">
+        UPDATE permission
+        SET permission_name  = #{permissionName,jdbcType=VARCHAR},
+            permission_value = #{permissionValue,jdbcType=VARCHAR}
+        WHERE id = #{id,jdbcType=BIGINT}
+    </update>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        SELECT
+            id,
+            permission_name,
+            permission_value
+        FROM permission
+        WHERE id = #{id,jdbcType=BIGINT}
+    </select>
+    <select id="selectAll" resultMap="BaseResultMap">
+        SELECT
+            id,
+            permission_name,
+            permission_value
+        FROM permission
+    </select>
     <select id="getPermissionValueSet" resultType="java.lang.String">
-      select permission_value from permission
+        SELECT permission_value
+        FROM permission
+    </select>
+    <!--根据角色id获取权限-->
+    <select id="selectByRoleId" resultMap="BaseResultMap">
+        SELECT
+            id,
+            permission_name,
+            permission_value
+        FROM permission
+        WHERE id IN (SELECT permission_id
+                     FROM role_permission
+                     WHERE role_id = #{roleId})
     </select>
 </mapper>

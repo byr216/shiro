@@ -1,5 +1,6 @@
 package cn.fei.item.domain.response;
 
+import com.alibaba.fastjson.JSON;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,4 +25,8 @@ public class JsonResponse<T> implements Serializable {
         this(code, msg, null);
     }
 
+    @Override
+    public String toString() {
+        return JSON.toJSONString(this);
+    }
 }

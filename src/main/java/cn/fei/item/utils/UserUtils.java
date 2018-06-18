@@ -39,12 +39,13 @@ public class UserUtils {
      *
      * @return
      */
-    public static User getUserByUserId(Long id) {
+    private static User getUserByUserId(Long id) {
         User user = getUserCache(id);
         if (user == null) {
             //从数据库获取
             IUserService userService = SpringUtils.getBean(IUserService.class);
             user = userService.getUserById(id);
+            CachUtils.put(USER_CACHE, USER_CACHE_KEY + user.getId(), user);
         }
         return user;
     }
@@ -56,11 +57,18 @@ public class UserUtils {
      * @param id
      * @return
      */
-    public static User getUserCache(Long id) {
+    private static User getUserCache(Long id) {
         //从缓存中获取用户信息
         User user = (User) CachUtils.get(USER_CACHE, USER_CACHE_KEY + id);
         return user;
     }
 
 
+    /**
+     * 清空用户缓存信息
+     */
+    public static void clearUserCache() {
+        LoginInfo loginInfo = getLoginInfo();
+        CachUtils.remove(USER_CACHE, USER_CACHE_KEY + loginInfo.getUserId());
+    }
 }

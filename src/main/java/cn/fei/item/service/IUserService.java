@@ -11,4 +11,9 @@ public interface IUserService {
      * 根据用户id获取用户
      */
     public User getUserById(Long id);
+
+    /**
+     * 清空用户缓存信息
+     */
+    void clearUserCache();
 }
