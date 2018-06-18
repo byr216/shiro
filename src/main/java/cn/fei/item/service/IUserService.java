@@ -16,4 +16,10 @@ public interface IUserService {
      * 清空用户缓存信息
      */
     void clearUserCache();
+
+    /**
+     * 获取用户权限
+     */
+    public void getUserPermissionsAndRoles(User user);
+
 }

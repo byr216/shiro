@@ -29,4 +29,7 @@ public class User extends BaseDomain {
     //获取用户角色
     private List<Role> roleList;
 
+    //权限集合
+    private List<Permission> permissionList;
+
 }

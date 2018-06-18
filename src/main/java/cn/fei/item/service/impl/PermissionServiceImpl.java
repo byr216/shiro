@@ -27,6 +27,11 @@ public class PermissionServiceImpl implements IPermissionService {
     private PermissionMapper permissionMapper;
 
     @Override
+    public List<Permission> selectAll() {
+        return permissionMapper.selectAll();
+    }
+
+    @Override
     public void reload() {
         /**
          * 增加系统中新配置的权限
@@ -68,4 +73,6 @@ public class PermissionServiceImpl implements IPermissionService {
         }
 
     }
+
+
 }
