@@ -1,7 +1,6 @@
 package cn.fei.item.assistant.exception;
 
 import lombok.extern.slf4j.Slf4j;
-import org.apache.shiro.authz.UnauthorizedException;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.ModelAndView;
@@ -22,23 +21,11 @@ import java.util.Map;
  * 用于全局统一异常处理
  */
 @Slf4j
-@Component
+//@Component
 public class HandleException implements HandlerExceptionResolver {
     @Override
     public ModelAndView resolveException(HttpServletRequest request, HttpServletResponse response, Object o, Exception e) {
         printInfo(request, response, o, e);
-        try {
-            if (e instanceof UnauthorizedException) {
-                //重定向到没有权限接口
-                request.getRequestDispatcher("/permission/noPermission").forward(request, response);
-
-            } else {
-                //未知错误
-                request.getRequestDispatcher("/permission/unKnowErr").forward(request, response);
-            }
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
         return null;
     }
 

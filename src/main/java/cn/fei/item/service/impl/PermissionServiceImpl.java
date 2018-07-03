@@ -1,6 +1,7 @@
 package cn.fei.item.service.impl;
 
 import cn.fei.item.assistant.annotation.MyPermissionAnnotation;
+import cn.fei.item.assistant.exception.JsonException;
 import cn.fei.item.domain.entity.Permission;
 import cn.fei.item.mapper.PermissionMapper;
 import cn.fei.item.service.IPermissionService;
@@ -33,6 +34,9 @@ public class PermissionServiceImpl implements IPermissionService {
 
     @Override
     public void reload() {
+        if (true) {
+            throw new JsonException("aaa");
+        }
         /**
          * 增加系统中新配置的权限
          * 删除系统中删除的权限
